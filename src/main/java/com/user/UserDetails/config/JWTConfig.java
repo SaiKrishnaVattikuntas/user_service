@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -15,7 +14,7 @@ public class JWTConfig {
     public SecurityFilterChain securityFilterChain (HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(auth -> auth.requestMatchers("/health/**").permitAll()
                 .requestMatchers("/api/users").hasAnyAuthority("SCOPE_read:users").anyRequest().authenticated())
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> {}));
         return httpSecurity.build();
     }
 }
